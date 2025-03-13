@@ -848,83 +848,79 @@
             document.getElementById('appOtherText').disabled = true;
             
             // Form submission handler
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Basic form validation
-                if (!validatePersonality() || !validateApplication() || !validateFileFormat()) {
-                    // Scroll to first error
-                    const firstError = document.querySelector('.error-message[style="display: block"]');
-                    if (firstError) {
-                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                    return;
-                }
-                
-                // Show loading overlay
-                showLoading();
-                
-                // Collect form data
-                const formData = new FormData(form);
-                const formObject = {};
-                
-                // Convert FormData to a regular object
-                for (const [key, value] of formData.entries()) {
-                    // For checkboxes (multiple values with same name)
-                    if (key === 'personality' || key === 'application' || key === 'fileFormat') {
-                        if (!formObject[key]) {
-                            formObject[key] = [];
-                        }
-                        formObject[key].push(value);
-                    } else {
-                        formObject[key] = value;
-                    }
-                }
-                
-                // Add timestamp
-                formObject.submissionDate = new Date().toISOString();
-                
-                // Save to Firebase Firestore
-                db.collection('brandDesignForms').add(formObject)
-                    .then((docRef) => {
-                        hideLoading();
-                        showStatus(`Form submitted successfully! Reference ID: ${docRef.id}`, true);
-                        
-                        // Create downloadable file as backup
-                        const jsonData = JSON.stringify(formObject, null, 2);
-                        const blob = new Blob([jsonData], { type: 'application/json' });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `BrandDesignForm_${formObject.clientName.replace(/\s+/g, '_')}_${docRef.id}.json`;
-                        a.click();
-                        URL.revokeObjectURL(url);
-                        
-                        // Reset form
-                        form.reset();
-                        document.getElementById('date').valueAsDate = new Date();
-                        document.getElementById('personalityOtherText').disabled = true;
-                        document.getElementById('appOtherText').disabled = true;
-                        
-                        // Scroll to top
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    })
-                    .catch((error) => {
-                        hideLoading();
-                        console.error("Error adding document: ", error);
-                        showStatus('Error submitting form. Please try again or download your data as backup.', false);
-                        
-                        // Create downloadable file as backup in case of error
-                        const jsonData = JSON.stringify(formObject, null, 2);
-                        const blob = new Blob([jsonData], { type: 'application/json' });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `BrandDesignForm_${formObject.clientName.replace(/\s+/g, '_')}_backup.json`;
-                        a.click();
-                        URL.revokeObjectURL(url);
-                    });
-            });
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Basic form validation
+    if (!validatePersonality() || !validateApplication() || !validateFileFormat()) {
+        // Scroll to first error
+        const firstError = document.querySelector('.error-message[style="display: block"]');
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+    
+    // Show loading overlay
+    showLoading();
+    
+    // Collect form data
+    const formData = new FormData(form);
+    const formObject = {};
+    
+    // Convert FormData to a regular object
+    for (const [key, value] of formData.entries()) {
+        // For checkboxes (multiple values with same name)
+        if (key === 'personality' || key === 'application' || key === 'fileFormat') {
+            if (!formObject[key]) {
+                formObject[key] = [];
+            }
+            formObject[key].push(value);
+        } else {
+            formObject[key] = value;
+        }
+    }
+    
+    // Add timestamp
+    formObject.submissionDate = new Date().toISOString();
+    
+    // Save to Firebase Firestore
+    db.collection('brandDesignForms').add(formObject)
+        .then((docRef) => {
+            hideLoading();
+            
+            // Show thank you message
+            formStatus.innerHTML = `
+                <h3 style="margin-bottom: 10px; font-weight: 600;">Thank You for Your Submission!</h3>
+                <p>Your form has been successfully submitted with Reference ID: ${docRef.id}</p>
+                <p>A representative will contact you shortly to discuss your brand design requirements.</p>
+            `;
+            formStatus.className = 'form-status success';
+            formStatus.style.display = 'block';
+            
+            // Reset form
+            form.reset();
+            document.getElementById('date').valueAsDate = new Date();
+            document.getElementById('personalityOtherText').disabled = true;
+            document.getElementById('appOtherText').disabled = true;
+            
+            // Scroll to top to see the thank you message
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch((error) => {
+            hideLoading();
+            console.error("Error adding document: ", error);
+            
+            // Show error message
+            formStatus.innerHTML = `
+                <h3 style="margin-bottom: 10px; font-weight: 600;">Submission Error</h3>
+                <p>There was an error submitting your form. Please try again or contact our support team.</p>
+                <p>Error details: ${error.message}</p>
+            `;
+            formStatus.className = 'form-status error';
+            formStatus.style.display = 'block';
+        });
+});
         });
     </script>
 </body>
