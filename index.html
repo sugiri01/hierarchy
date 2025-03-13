@@ -4,20 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frontal Designs - Brand Design Requirements</title>
+    <!-- Tailwind CDN for shadcn-inspired styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter for shadcn-like typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2a6ab9;
-            --secondary-color: #f97c36;
-            --background-color: #f9f9f9;
-            --text-color: #333;
-            --border-color: #ddd;
+            --primary-color: #2563eb; /* Blue 600 */
+            --primary-hover: #1d4ed8; /* Blue 700 */
+            --secondary-color: #f97316; /* Orange 500 */
+            --background-color: #f8fafc; /* Slate 50 */
+            --card-background: #ffffff;
+            --text-color: #334155; /* Slate 700 */
+            --text-muted: #64748b; /* Slate 500 */
+            --border-color: #e2e8f0; /* Slate 200 */
+            --error-color: #ef4444; /* Red 500 */
+            --success-color: #22c55e; /* Green 500 */
         }
         
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         body {
@@ -30,192 +39,229 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: var(--card-background);
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
         }
         
-        .header {
+        .form-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f1f5f9; /* Slate 100 */
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            justify-content: space-between;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         
         .logo {
-            margin-right: 20px;
+            height: 40px;
+            width: auto;
         }
         
-        .logo-text {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        
-        .logo-text span {
-            color: var(--secondary-color);
-        }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--primary-color);
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b; /* Slate 800 */
         }
         
         .instruction {
             text-align: center;
-            margin-bottom: 30px;
+            padding: 0.75rem;
             font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .form-content {
+            padding: 2rem;
         }
         
         .section {
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
+            margin-bottom: 2rem;
         }
         
         .section-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid var(--secondary-color);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
             display: inline-block;
+            color: #1e293b; /* Slate 800 */
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
         }
         
-        label {
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .form-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
             font-weight: 500;
+            font-size: 0.875rem;
+            color: #334155; /* Slate 700 */
         }
         
-        input[type="text"], 
-        input[type="email"],
-        input[type="date"],
-        textarea,
-        select {
+        .required {
+            color: var(--error-color);
+            margin-left: 0.25rem;
+        }
+        
+        .input, .textarea, .select {
             width: 100%;
-            padding: 10px;
+            padding: 0.625rem;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         
-        textarea {
+        .input:focus, .textarea:focus, .select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        
+        .textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
         }
         
-        .small-note {
-            font-size: 0.85rem;
-            color: #666;
+        .hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
             font-style: italic;
-            margin-top: 5px;
         }
         
         .color-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 1rem;
         }
         
-        .checkbox-grid {
+        .checkbox-grid, .radio-group {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 0.5rem;
         }
         
-        .checkbox-item {
+        @media (min-width: 480px) {
+            .checkbox-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .checkbox-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .checkbox-item, .radio-item {
             display: flex;
             align-items: center;
         }
         
-        .checkbox-item input[type="checkbox"] {
-            margin-right: 8px;
+        .checkbox-label, .radio-label {
+            margin-left: 0.5rem;
+            font-size: 0.875rem;
         }
         
-        .radio-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            text-align: center;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            font-size: 0.875rem;
         }
         
-        .radio-item input[type="radio"] {
-            margin-right: 8px;
-        }
-        
-        button {
+        .btn-primary {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            display: block;
-            margin: 30px auto 0;
-            transition: background-color 0.2s;
         }
         
-        button:hover {
-            background-color: #1d5aa0;
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
         }
         
-        .footer {
+        .submit-container {
             text-align: center;
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: #666;
+            margin-top: 2rem;
         }
         
-        #formStatus {
-            display: none;
+        .divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 2rem 0;
+        }
+        
+        .form-status {
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.375rem;
             text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 4px;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        #loadingOverlay {
             display: none;
+        }
+        
+        .form-status.success {
+            background-color: #dcfce7; /* Green 100 */
+            color: #166534; /* Green 800 */
+        }
+        
+        .form-status.error {
+            background-color: #fee2e2; /* Red 100 */
+            color: #b91c1c; /* Red 800 */
+        }
+        
+        .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            display: none;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
         
         .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary-color);
+            border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
         }
         
@@ -224,378 +270,466 @@
             100% { transform: rotate(360deg); }
         }
         
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .checkbox-grid,
-            .color-grid {
-                grid-template-columns: 1fr;
-            }
+        .footer {
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Ant Design inspired elements */
+        .ant-checkbox-wrapper {
+            cursor: pointer;
+            padding: 0.375rem 0;
+        }
+        
+        .ant-radio-wrapper {
+            padding: 0.375rem 0;
+            cursor: pointer;
+        }
+
+        .ant-datepicker {
+            position: relative;
+        }
+
+        .ant-datepicker-input {
+            padding-right: 2rem;
+        }
+
+        .ant-datepicker-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Some shadcn-inspired overrides */
+        .shadcn-card {
+            border: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
 <body>
-    <div id="loadingOverlay">
+    <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
     </div>
 
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <div class="logo-text">F<span>D</span></div>
+    <div class="container shadcn-card">
+        <div class="form-header">
+            <div class="logo-container">
+                <img src="g3.png" alt="G3 Logo" class="logo">
+                <h1 class="page-title">BRAND DESIGN REQUIREMENTS</h1>
             </div>
-            <h1>BRAND DESIGN REQUIREMENTS</h1>
         </div>
         
         <p class="instruction">Please fill out this form completely and submit it to your design consultant</p>
         
-        <form id="brandDesignForm">
-            <!-- 1. CLIENT INFORMATION -->
-            <div class="section">
-                <div class="section-title">1. CLIENT INFORMATION</div>
-                
-                <div class="form-group">
-                    <label for="clientName">Client/Company Name*</label>
-                    <input type="text" id="clientName" name="clientName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="industrySector">Industry/Sector*</label>
-                    <input type="text" id="industrySector" name="industrySector" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="primaryContactPerson">Primary Contact Person*</label>
-                    <input type="text" id="primaryContactPerson" name="primaryContactPerson" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="contactEmail">Contact Email*</label>
-                    <input type="email" id="contactEmail" name="contactEmail" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="contactPhone">Contact Phone</label>
-                    <input type="text" id="contactPhone" name="contactPhone">
-                </div>
-            </div>
-            
-            <!-- 2. BRAND OVERVIEW -->
-            <div class="section">
-                <div class="section-title">2. BRAND OVERVIEW</div>
-                
-                <div class="form-group">
-                    <label for="businessDescription">Business Description*</label>
-                    <textarea id="businessDescription" name="businessDescription" required></textarea>
-                    <p class="small-note">Brief description of what your company does</p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="missionStatement">Mission Statement</label>
-                    <textarea id="missionStatement" name="missionStatement"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="targetAudience">Target Audience*</label>
-                    <textarea id="targetAudience" name="targetAudience" required></textarea>
-                    <p class="small-note">Demographics, psychographics, behaviors of your target audience</p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="competitors">Competitors</label>
-                    <textarea id="competitors" name="competitors"></textarea>
-                </div>
-            </div>
-            
-            <!-- 3. COLOR PREFERENCES -->
-            <div class="section">
-                <div class="section-title">3. COLOR PREFERENCES</div>
-                
-                <p>Colors your business prefers or wants to use:</p>
-                <div class="color-grid">
+        <div class="form-content">
+            <form id="brandDesignForm">
+                <!-- 1. CLIENT INFORMATION -->
+                <div class="section">
+                    <h2 class="section-title">1. CLIENT INFORMATION</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="label" for="clientName">Client/Company Name<span class="required">*</span></label>
+                            <input type="text" id="clientName" name="clientName" class="input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="label" for="industrySector">Industry/Sector<span class="required">*</span></label>
+                            <input type="text" id="industrySector" name="industrySector" class="input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="label" for="primaryContactPerson">Primary Contact Person<span class="required">*</span></label>
+                            <input type="text" id="primaryContactPerson" name="primaryContactPerson" class="input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="label" for="contactEmail">Contact Email<span class="required">*</span></label>
+                            <input type="email" id="contactEmail" name="contactEmail" class="input" required>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
-                        <label for="colorBlue">Blue</label>
-                        <input type="text" id="colorBlue" name="colorBlue" placeholder="Specify shade if needed">
+                        <label class="label" for="contactPhone">Contact Phone</label>
+                        <input type="text" id="contactPhone" name="contactPhone" class="input">
                     </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- 2. BRAND OVERVIEW -->
+                <div class="section">
+                    <h2 class="section-title">2. BRAND OVERVIEW</h2>
+                    
                     <div class="form-group">
-                        <label for="colorGreen">Green</label>
-                        <input type="text" id="colorGreen" name="colorGreen" placeholder="Specify shade if needed">
+                        <label class="label" for="businessDescription">Business Description<span class="required">*</span></label>
+                        <textarea id="businessDescription" name="businessDescription" class="textarea" required></textarea>
+                        <p class="hint">Brief description of what your company does</p>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="colorRed">Red</label>
-                        <input type="text" id="colorRed" name="colorRed" placeholder="Specify shade if needed">
+                        <label class="label" for="missionStatement">Mission Statement</label>
+                        <textarea id="missionStatement" name="missionStatement" class="textarea"></textarea>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="colorPurple">Purple</label>
-                        <input type="text" id="colorPurple" name="colorPurple" placeholder="Specify shade if needed">
+                        <label class="label" for="targetAudience">Target Audience<span class="required">*</span></label>
+                        <textarea id="targetAudience" name="targetAudience" class="textarea" required></textarea>
+                        <p class="hint">Demographics, psychographics, behaviors of your target audience</p>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="colorYellow">Yellow</label>
-                        <input type="text" id="colorYellow" name="colorYellow" placeholder="Specify shade if needed">
+                        <label class="label" for="competitors">Competitors</label>
+                        <textarea id="competitors" name="competitors" class="textarea"></textarea>
                     </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- 3. COLOR PREFERENCES -->
+                <div class="section">
+                    <h2 class="section-title">3. COLOR PREFERENCES</h2>
+                    
+                    <p class="label">Colors your business prefers or wants to use:</p>
+                    <div class="color-grid">
+                        <div class="form-group">
+                            <label class="label" for="colorBlue">Blue</label>
+                            <input type="text" id="colorBlue" name="colorBlue" class="input" placeholder="Specify shade if needed">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="colorGreen">Green</label>
+                            <input type="text" id="colorGreen" name="colorGreen" class="input" placeholder="Specify shade if needed">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="colorRed">Red</label>
+                            <input type="text" id="colorRed" name="colorRed" class="input" placeholder="Specify shade if needed">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="colorPurple">Purple</label>
+                            <input type="text" id="colorPurple" name="colorPurple" class="input" placeholder="Specify shade if needed">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="colorYellow">Yellow</label>
+                            <input type="text" id="colorYellow" name="colorYellow" class="input" placeholder="Specify shade if needed">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="colorOrange">Orange</label>
+                            <input type="text" id="colorOrange" name="colorOrange" class="input" placeholder="Specify shade if needed">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="colorBlack">Black</label>
+                            <input type="text" id="colorBlack" name="colorBlack" class="input" placeholder="Specify shade if needed">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="colorWhite">White</label>
+                            <input type="text" id="colorWhite" name="colorWhite" class="input" placeholder="Specify shade if needed">
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
-                        <label for="colorOrange">Orange</label>
-                        <input type="text" id="colorOrange" name="colorOrange" placeholder="Specify shade if needed">
+                        <label class="label" for="colorsToAvoid">Colors to Avoid</label>
+                        <input type="text" id="colorsToAvoid" name="colorsToAvoid" class="input">
                     </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- 4. FONT STYLE PREFERENCE -->
+                <div class="section">
+                    <h2 class="section-title">4. FONT STYLE PREFERENCE</h2>
+                    <p class="label">Font Style Preference (Select one)</p>
+                    
+                    <div class="radio-group">
+                        <div class="radio-item ant-radio-wrapper">
+                            <input type="radio" id="fontSerif" name="fontStyle" value="Serif">
+                            <label class="radio-label" for="fontSerif">Serif</label>
+                        </div>
+                        <div class="radio-item ant-radio-wrapper">
+                            <input type="radio" id="fontSansSerif" name="fontStyle" value="Sans-serif">
+                            <label class="radio-label" for="fontSansSerif">Sans-serif/Modern</label>
+                        </div>
+                        <div class="radio-item ant-radio-wrapper">
+                            <input type="radio" id="fontCombination" name="fontStyle" value="Combination">
+                            <label class="radio-label" for="fontCombination">Combination</label>
+                        </div>
+                        <div class="radio-item ant-radio-wrapper">
+                            <input type="radio" id="fontScriptDecorative" name="fontStyle" value="Script/Decorative">
+                            <label class="radio-label" for="fontScriptDecorative">Script/Decorative</label>
+                        </div>
+                        <div class="radio-item ant-radio-wrapper">
+                            <input type="radio" id="fontNoPreference" name="fontStyle" value="No preference">
+                            <label class="radio-label" for="fontNoPreference">No preference</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- 5. BRAND PERSONALITY -->
+                <div class="section">
+                    <h2 class="section-title">5. BRAND PERSONALITY</h2>
+                    <p class="label">Keywords (Select 3-5 words that best describe your brand personality)<span class="required">*</span></p>
+                    
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityProfessional" name="personality" value="Professional">
+                            <label class="checkbox-label" for="personalityProfessional">Professional</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityTrustworthy" name="personality" value="Trustworthy">
+                            <label class="checkbox-label" for="personalityTrustworthy">Trustworthy</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityInnovative" name="personality" value="Innovative">
+                            <label class="checkbox-label" for="personalityInnovative">Innovative</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityTraditional" name="personality" value="Traditional">
+                            <label class="checkbox-label" for="personalityTraditional">Traditional</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityFresh" name="personality" value="Fresh">
+                            <label class="checkbox-label" for="personalityFresh">Fresh</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalitySophisticated" name="personality" value="Sophisticated">
+                            <label class="checkbox-label" for="personalitySophisticated">Sophisticated</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityAccessible" name="personality" value="Accessible">
+                            <label class="checkbox-label" for="personalityAccessible">Accessible</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityLuxurious" name="personality" value="Luxurious">
+                            <label class="checkbox-label" for="personalityLuxurious">Luxurious</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityFriendly" name="personality" value="Friendly">
+                            <label class="checkbox-label" for="personalityFriendly">Friendly</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityAuthoritative" name="personality" value="Authoritative">
+                            <label class="checkbox-label" for="personalityAuthoritative">Authoritative</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityCuttingEdge" name="personality" value="Cutting-edge">
+                            <label class="checkbox-label" for="personalityCuttingEdge">Cutting-edge</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityEcoFriendly" name="personality" value="Eco-friendly">
+                            <label class="checkbox-label" for="personalityEcoFriendly">Eco-friendly</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityMinimalist" name="personality" value="Minimalist">
+                            <label class="checkbox-label" for="personalityMinimalist">Minimalist</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityBold" name="personality" value="Bold">
+                            <label class="checkbox-label" for="personalityBold">Bold</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityElegant" name="personality" value="Elegant">
+                            <label class="checkbox-label" for="personalityElegant">Elegant</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="personalityOther" name="personality" value="Other">
+                            <label class="checkbox-label" for="personalityOther">Other:</label>
+                            <input type="text" id="personalityOtherText" name="personalityOtherText" class="input" style="width: 120px; margin-left: 5px;">
+                        </div>
+                    </div>
+                    
+                    <p id="personalityError" class="error-message" style="display: none;">Please select 3-5 personality traits.</p>
+                    
                     <div class="form-group">
-                        <label for="colorBlack">Black</label>
-                        <input type="text" id="colorBlack" name="colorBlack" placeholder="Specify shade if needed">
+                        <label class="label" for="brandVoice">Brand Voice</label>
+                        <textarea id="brandVoice" name="brandVoice" class="textarea"></textarea>
+                        <p class="hint">How would you describe your brand's voice? (Conversational, formal, technical, humorous, etc.)</p>
                     </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- 6. APPLICATION REQUIREMENTS -->
+                <div class="section">
+                    <h2 class="section-title">6. APPLICATION REQUIREMENTS</h2>
+                    <p class="label">Where will the logo/branding be used? (Check all that apply)<span class="required">*</span></p>
+                    
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appWebsite" name="application" value="Website">
+                            <label class="checkbox-label" for="appWebsite">Website</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appSocialMedia" name="application" value="Social Media">
+                            <label class="checkbox-label" for="appSocialMedia">Social Media</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appBusinessCards" name="application" value="Business Cards">
+                            <label class="checkbox-label" for="appBusinessCards">Business Cards</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appSignage" name="application" value="Signage">
+                            <label class="checkbox-label" for="appSignage">Signage</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appProductPackaging" name="application" value="Product Packaging">
+                            <label class="checkbox-label" for="appProductPackaging">Product Packaging</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appApparel" name="application" value="Apparel">
+                            <label class="checkbox-label" for="appApparel">Apparel</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appPrintMaterials" name="application" value="Print Materials">
+                            <label class="checkbox-label" for="appPrintMaterials">Print Materials</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appDigitalAdvertising" name="application" value="Digital Advertising">
+                            <label class="checkbox-label" for="appDigitalAdvertising">Digital Advertising</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appMobileApp" name="application" value="Mobile App">
+                            <label class="checkbox-label" for="appMobileApp">Mobile App</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="appOther" name="application" value="Other">
+                            <label class="checkbox-label" for="appOther">Other:</label>
+                            <input type="text" id="appOtherText" name="appOtherText" class="input" style="width: 120px; margin-left: 5px;">
+                        </div>
+                    </div>
+                    
+                    <p id="applicationError" class="error-message" style="display: none;">Please select at least one application.</p>
+                    
+                    <p class="label">Required File Formats (Check all that apply)<span class="required">*</span></p>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="formatAI" name="fileFormat" value="AI (Adobe Illustrator)">
+                            <label class="checkbox-label" for="formatAI">AI (Adobe Illustrator)</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="formatEPS" name="fileFormat" value="EPS">
+                            <label class="checkbox-label" for="formatEPS">EPS</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="formatPDF" name="fileFormat" value="PDF">
+                            <label class="checkbox-label" for="formatPDF">PDF</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="formatJPG" name="fileFormat" value="JPG">
+                            <label class="checkbox-label" for="formatJPG">JPG</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="formatPNGTransparent" name="fileFormat" value="PNG (transparent)">
+                            <label class="checkbox-label" for="formatPNGTransparent">PNG (transparent)</label>
+                        </div>
+                        <div class="checkbox-item ant-checkbox-wrapper">
+                            <input type="checkbox" id="formatSVG" name="fileFormat" value="SVG">
+                            <label class="checkbox-label" for="formatSVG">SVG</label>
+                        </div>
+                    </div>
+                    
+                    <p id="fileFormatError" class="error-message" style="display: none;">Please select at least one file format.</p>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- 7. TIMELINE -->
+                <div class="section">
+                    <h2 class="section-title">7. TIMELINE</h2>
+                    
                     <div class="form-group">
-                        <label for="colorWhite">White</label>
-                        <input type="text" id="colorWhite" name="colorWhite" placeholder="Specify shade if needed">
+                        <label class="label" for="preferredDeadline">Preferred Deadline<span class="required">*</span></label>
+                        <div class="ant-datepicker">
+                            <input type="date" id="preferredDeadline" name="preferredDeadline" class="input ant-datepicker-input" required>
+                            <span class="ant-datepicker-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M3.5 2.5h9a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1z" />
+                                    <path d="M11.5 1.5v2M4.5 1.5v2M2.5 5.5h11M4.5 8.5h1M7.5 8.5h1M10.5 8.5h1M4.5 10.5h1M7.5 10.5h1M10.5 10.5h1M4.5 12.5h1M7.5 12.5h1M10.5 12.5h1" />
+                                </svg>
+                            </span>
+                        </div>
+                        <p class="hint">Please specify a date</p>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="colorsToAvoid">Colors to Avoid</label>
-                    <input type="text" id="colorsToAvoid" name="colorsToAvoid">
-                </div>
-            </div>
-            
-            <!-- 4. FONT STYLE PREFERENCE -->
-            <div class="section">
-                <div class="section-title">4. FONT STYLE PREFERENCE</div>
-                <p>Font Style Preference (Check one)</p>
+                <div class="divider"></div>
                 
-                <div class="radio-item">
-                    <input type="radio" id="fontSerif" name="fontStyle" value="Serif">
-                    <label for="fontSerif">Serif</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" id="fontSansSerif" name="fontStyle" value="Sans-serif">
-                    <label for="fontSansSerif">Sans-serif/Modern</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" id="fontCombination" name="fontStyle" value="Combination">
-                    <label for="fontCombination">Combination</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" id="fontScriptDecorative" name="fontStyle" value="Script/Decorative">
-                    <label for="fontScriptDecorative">Script/Decorative</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" id="fontNoPreference" name="fontStyle" value="No preference">
-                    <label for="fontNoPreference">No preference</label>
-                </div>
-            </div>
-            
-            <!-- 5. BRAND PERSONALITY -->
-            <div class="section">
-                <div class="section-title">5. BRAND PERSONALITY</div>
-                <p>Keywords (Select 3-5 words that best describe your brand personality)*</p>
-                
-                <div class="checkbox-grid">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityProfessional" name="personality" value="Professional">
-                        <label for="personalityProfessional">Professional</label>
+                <!-- 8. ADDITIONAL INFORMATION -->
+                <div class="section">
+                    <h2 class="section-title">8. ADDITIONAL INFORMATION</h2>
+                    
+                    <div class="form-group">
+                        <label class="label" for="existingBrandingMaterial">Existing Branding Material</label>
+                        <textarea id="existingBrandingMaterial" name="existingBrandingMaterial" class="textarea"></textarea>
+                        <p class="hint">Description of any current branding elements that should be considered</p>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityTrustworthy" name="personality" value="Trustworthy">
-                        <label for="personalityTrustworthy">Trustworthy</label>
+                    
+                    <div class="form-group">
+                        <label class="label" for="inspirationalBrandsLogos">Inspirational Brands/Logos</label>
+                        <textarea id="inspirationalBrandsLogos" name="inspirationalBrandsLogos" class="textarea"></textarea>
+                        <p class="hint">Brands or logos you admire and why</p>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityInnovative" name="personality" value="Innovative">
-                        <label for="personalityInnovative">Innovative</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityTraditional" name="personality" value="Traditional">
-                        <label for="personalityTraditional">Traditional</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityFresh" name="personality" value="Fresh">
-                        <label for="personalityFresh">Fresh</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalitySophisticated" name="personality" value="Sophisticated">
-                        <label for="personalitySophisticated">Sophisticated</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityAccessible" name="personality" value="Accessible">
-                        <label for="personalityAccessible">Accessible</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityLuxurious" name="personality" value="Luxurious">
-                        <label for="personalityLuxurious">Luxurious</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityFriendly" name="personality" value="Friendly">
-                        <label for="personalityFriendly">Friendly</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityAuthoritative" name="personality" value="Authoritative">
-                        <label for="personalityAuthoritative">Authoritative</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityCuttingEdge" name="personality" value="Cutting-edge">
-                        <label for="personalityCuttingEdge">Cutting-edge</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityEcoFriendly" name="personality" value="Eco-friendly">
-                        <label for="personalityEcoFriendly">Eco-friendly</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityMinimalist" name="personality" value="Minimalist">
-                        <label for="personalityMinimalist">Minimalist</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityBold" name="personality" value="Bold">
-                        <label for="personalityBold">Bold</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityElegant" name="personality" value="Elegant">
-                        <label for="personalityElegant">Elegant</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="personalityOther" name="personality" value="Other">
-                        <label for="personalityOther">Other:</label>
-                        <input type="text" id="personalityOtherText" name="personalityOtherText" style="width: 100px; margin-left: 5px;">
+                    
+                    <div class="form-group">
+                        <label class="label" for="additionalNotes">Additional Notes or Requirements</label>
+                        <textarea id="additionalNotes" name="additionalNotes" class="textarea"></textarea>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="brandVoice">Brand Voice</label>
-                    <textarea id="brandVoice" name="brandVoice"></textarea>
-                    <p class="small-note">How would you describe your brand's voice? (Conversational, formal, technical, humorous, etc.)</p>
-                </div>
-            </div>
-            
-            <!-- 6. APPLICATION REQUIREMENTS -->
-            <div class="section">
-                <div class="section-title">6. APPLICATION REQUIREMENTS</div>
-                <p>Where will the logo/branding be used? (Check all that apply)*</p>
+                <div class="divider"></div>
                 
-                <div class="checkbox-grid">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appWebsite" name="application" value="Website">
-                        <label for="appWebsite">Website</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appSocialMedia" name="application" value="Social Media">
-                        <label for="appSocialMedia">Social Media</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appBusinessCards" name="application" value="Business Cards">
-                        <label for="appBusinessCards">Business Cards</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appSignage" name="application" value="Signage">
-                        <label for="appSignage">Signage</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appProductPackaging" name="application" value="Product Packaging">
-                        <label for="appProductPackaging">Product Packaging</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appApparel" name="application" value="Apparel">
-                        <label for="appApparel">Apparel</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appPrintMaterials" name="application" value="Print Materials">
-                        <label for="appPrintMaterials">Print Materials</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appDigitalAdvertising" name="application" value="Digital Advertising">
-                        <label for="appDigitalAdvertising">Digital Advertising</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appMobileApp" name="application" value="Mobile App">
-                        <label for="appMobileApp">Mobile App</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="appOther" name="application" value="Other">
-                        <label for="appOther">Other:</label>
-                        <input type="text" id="appOtherText" name="appOtherText" style="width: 100px; margin-left: 5px;">
+                <!-- Signature Section -->
+                <div class="section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="label" for="signature">Signature<span class="required">*</span></label>
+                            <input type="text" id="signature" name="signature" class="input" placeholder="Type your name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="label" for="date">Date<span class="required">*</span></label>
+                            <div class="ant-datepicker">
+                                <input type="date" id="date" name="date" class="input ant-datepicker-input" required>
+                                <span class="ant-datepicker-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M3.5 2.5h9a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1z" />
+                                        <path d="M11.5 1.5v2M4.5 1.5v2M2.5 5.5h11M4.5 8.5h1M7.5 8.5h1M10.5 8.5h1M4.5 10.5h1M7.5 10.5h1M10.5 10.5h1M4.5 12.5h1M7.5 12.5h1M10.5 12.5h1" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <p>Required File Formats (Check all that apply)*</p>
-                <div class="checkbox-grid">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="formatAI" name="fileFormat" value="AI (Adobe Illustrator)">
-                        <label for="formatAI">AI (Adobe Illustrator)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="formatEPS" name="fileFormat" value="EPS">
-                        <label for="formatEPS">EPS</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="formatPDF" name="fileFormat" value="PDF">
-                        <label for="formatPDF">PDF</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="formatJPG" name="fileFormat" value="JPG">
-                        <label for="formatJPG">JPG</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="formatPNGTransparent" name="fileFormat" value="PNG (transparent)">
-                        <label for="formatPNGTransparent">PNG (transparent)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="formatSVG" name="fileFormat" value="SVG">
-                        <label for="formatSVG">SVG</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 7. TIMELINE -->
-            <div class="section">
-                <div class="section-title">7. TIMELINE</div>
-                
-                <div class="form-group">
-                    <label for="preferredDeadline">Preferred Deadline*</label>
-                    <input type="date" id="preferredDeadline" name="preferredDeadline" required>
-                    <p class="small-note">Please specify a date (MM/DD/YYYY)</p>
-                </div>
-            </div>
-            
-            <!-- 8. ADDITIONAL INFORMATION -->
-            <div class="section">
-                <div class="section-title">8. ADDITIONAL INFORMATION</div>
-                
-                <div class="form-group">
-                    <label for="existingBrandingMaterial">Existing Branding Material</label>
-                    <textarea id="existingBrandingMaterial" name="existingBrandingMaterial"></textarea>
-                    <p class="small-note">Description of any current branding elements that should be considered</p>
+                <!-- Submit Button and Form Status -->
+                <div class="submit-container">
+                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">Submit Form</button>
                 </div>
                 
-                <div class="form-group">
-                    <label for="inspirationalBrandsLogos">Inspirational Brands/Logos</label>
-                    <textarea id="inspirationalBrandsLogos" name="inspirationalBrandsLogos"></textarea>
-                    <p class="small-note">Brands or logos you admire and why</p>
+                <div id="formStatus" class="form-status">
+                    <!-- Status message will be displayed here -->
                 </div>
-                
-                <div class="form-group">
-                    <label for="additionalNotes">Additional Notes or Requirements</label>
-                    <textarea id="additionalNotes" name="additionalNotes"></textarea>
-                </div>
-            </div>
-            
-            <!-- Signature Section -->
-            <div class="section">
-                <div class="form-group">
-                    <label for="signature">Signature*</label>
-                    <input type="text" id="signature" name="signature" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="date">Date*</label>
-                    <input type="date" id="date" name="date" required>
-                </div>
-            </div>
-            
-            <!-- Submit Button -->
-            <button type="submit" id="submitBtn">Submit Form</button>
-            
-            <!-- Form Status Message -->
-            <div id="formStatus"></div>
-        </form>
+            </form>
+        </div>
         
         <div class="footer">
-            <p>Please return completed form to your Frontal Designs consultant or email to admin@frontaldesigns.com</p>
-            <p>© 2023 Frontal Designs. All rights reserved</p>
+            <p>Please return completed form to your design consultant or email to admin@frontaldesigns.com</p>
+            <p>© 2025 Frontal Designs. All rights reserved</p>
         </div>
     </div>
     
@@ -624,6 +758,7 @@
             // Initialize Firestore
             const db = firebase.firestore();
             
+            // Reference to form elements
             const form = document.getElementById('brandDesignForm');
             const formStatus = document.getElementById('formStatus');
             const submitBtn = document.getElementById('submitBtn');
@@ -635,7 +770,7 @@
             // Helper function to show status messages
             function showStatus(message, isSuccess) {
                 formStatus.textContent = message;
-                formStatus.className = isSuccess ? 'success' : 'error';
+                formStatus.className = isSuccess ? 'form-status success' : 'form-status error';
                 formStatus.style.display = 'block';
                 
                 if (isSuccess) {
@@ -660,32 +795,57 @@
             // Validate that 3-5 personality traits are selected
             function validatePersonality() {
                 const personalityBoxes = document.querySelectorAll('input[name="personality"]:checked');
+                const personalityError = document.getElementById('personalityError');
+                
                 if (personalityBoxes.length < 3 || personalityBoxes.length > 5) {
-                    showStatus('Please select 3-5 personality traits for your brand.', false);
+                    personalityError.style.display = 'block';
                     return false;
+                } else {
+                    personalityError.style.display = 'none';
+                    return true;
                 }
-                return true;
             }
             
             // Validate that at least one application is selected
             function validateApplication() {
                 const applicationBoxes = document.querySelectorAll('input[name="application"]:checked');
+                const applicationError = document.getElementById('applicationError');
+                
                 if (applicationBoxes.length === 0) {
-                    showStatus('Please select at least one application for your logo/branding.', false);
+                    applicationError.style.display = 'block';
                     return false;
+                } else {
+                    applicationError.style.display = 'none';
+                    return true;
                 }
-                return true;
             }
             
             // Validate that at least one file format is selected
             function validateFileFormat() {
                 const fileFormatBoxes = document.querySelectorAll('input[name="fileFormat"]:checked');
+                const fileFormatError = document.getElementById('fileFormatError');
+                
                 if (fileFormatBoxes.length === 0) {
-                    showStatus('Please select at least one required file format.', false);
+                    fileFormatError.style.display = 'block';
                     return false;
+                } else {
+                    fileFormatError.style.display = 'none';
+                    return true;
                 }
-                return true;
             }
+            
+            // Add event listener for "Other" options to enable/disable text fields
+            document.getElementById('personalityOther').addEventListener('change', function() {
+                document.getElementById('personalityOtherText').disabled = !this.checked;
+            });
+            
+            document.getElementById('appOther').addEventListener('change', function() {
+                document.getElementById('appOtherText').disabled = !this.checked;
+            });
+            
+            // Initialize "Other" text fields as disabled
+            document.getElementById('personalityOtherText').disabled = true;
+            document.getElementById('appOtherText').disabled = true;
             
             // Form submission handler
             form.addEventListener('submit', function(e) {
@@ -693,6 +853,11 @@
                 
                 // Basic form validation
                 if (!validatePersonality() || !validateApplication() || !validateFileFormat()) {
+                    // Scroll to first error
+                    const firstError = document.querySelector('.error-message[style="display: block"]');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                     return;
                 }
                 
@@ -738,6 +903,11 @@
                         // Reset form
                         form.reset();
                         document.getElementById('date').valueAsDate = new Date();
+                        document.getElementById('personalityOtherText').disabled = true;
+                        document.getElementById('appOtherText').disabled = true;
+                        
+                        // Scroll to top
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     })
                     .catch((error) => {
                         hideLoading();
@@ -752,23 +922,9 @@
                         a.href = url;
                         a.download = `BrandDesignForm_${formObject.clientName.replace(/\s+/g, '_')}_backup.json`;
                         a.click();
-                        URL.revokeObjectURL(url
-                        );
+                        URL.revokeObjectURL(url);
                     });
             });
-            
-            // Add event listener for "Other" options to enable/disable text fields
-            document.getElementById('personalityOther').addEventListener('change', function() {
-                document.getElementById('personalityOtherText').disabled = !this.checked;
-            });
-            
-            document.getElementById('appOther').addEventListener('change', function() {
-                document.getElementById('appOtherText').disabled = !this.checked;
-            });
-            
-            // Initialize "Other" text fields as disabled
-            document.getElementById('personalityOtherText').disabled = true;
-            document.getElementById('appOtherText').disabled = true;
         });
     </script>
 </body>
